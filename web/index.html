@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Review Triage Dashboard</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="background-glow"></div>
+    <main class="app-shell">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">Area Chair Console</p>
+          <h1>Review Triage Dashboard</h1>
+          <p class="subtitle">
+            Rank papers by consensus and inspect potential low-content reviews before final recommendations.
+          </p>
+        </div>
+        <form id="load-form" class="load-form">
+          <label for="folder-path">Review folder</label>
+          <div class="load-row">
+            <input
+              id="folder-path"
+              name="folder-path"
+              type="text"
+              placeholder="/path/to/review/xml/folder"
+            />
+            <button type="submit">Load</button>
+          </div>
+          <p id="status-text" class="status"></p>
+        </form>
+      </header>
+
+      <section class="kpi-grid" id="kpi-grid">
+        <article class="kpi-card">
+          <p class="kpi-label">Papers</p>
+          <p class="kpi-value" id="kpi-papers">-</p>
+        </article>
+        <article class="kpi-card">
+          <p class="kpi-label">Reviews</p>
+          <p class="kpi-value" id="kpi-reviews">-</p>
+        </article>
+        <article class="kpi-card">
+          <p class="kpi-label">Mean Score</p>
+          <p class="kpi-value" id="kpi-mean-score">-</p>
+        </article>
+        <article class="kpi-card">
+          <p class="kpi-label">High Discrepancy (>=2)</p>
+          <p class="kpi-value" id="kpi-high-disc">-</p>
+        </article>
+      </section>
+
+      <section class="chart-grid">
+        <article class="panel">
+          <div class="panel-header">
+            <div>
+              <h2>Paper Average Score Distribution</h2>
+              <p>Histogram of paper-level average review scores.</p>
+            </div>
+          </div>
+          <div id="paper-histogram" class="histogram"></div>
+        </article>
+        <article class="panel">
+          <div class="panel-header">
+            <div>
+              <h2>Overall Review Score Distribution</h2>
+              <p>Histogram of raw review scores across all reviews.</p>
+            </div>
+          </div>
+          <div id="review-histogram" class="histogram"></div>
+        </article>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <h2>Paper Overview</h2>
+            <p>Sort by score, confidence, or disagreement signal.</p>
+          </div>
+          <div class="controls">
+            <label>
+              Sort metric
+              <select id="paper-sort-key">
+                <option value="avgScore">Average score</option>
+                <option value="minScore">Minimum score</option>
+                <option value="maxScore">Maximum score</option>
+                <option value="scoreDiscrepancy">Score discrepancy</option>
+                <option value="avgConfidence">Average confidence</option>
+                <option value="avgWordCount">Average word count</option>
+                <option value="confidenceWeightedScore">Confidence-weighted score</option>
+                <option value="reviewerAdjustedScore">Reviewer-adjusted score</option>
+              </select>
+            </label>
+            <button id="sort-direction" type="button" class="ghost">Descending</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table id="paper-table">
+            <thead>
+              <tr>
+                <th>Submission</th>
+                <th>Title</th>
+                <th>Reviews</th>
+                <th>Avg</th>
+                <th>Min</th>
+                <th>Max</th>
+                <th>Discrepancy</th>
+                <th>Avg Conf.</th>
+                <th>Avg Words</th>
+                <th>Conf-Wtd</th>
+                <th>Reviewer Adj.</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="split">
+        <article class="panel">
+          <div class="panel-header">
+            <div>
+              <h2>Paper Review Details</h2>
+              <p id="paper-detail-title">Select a paper to view complete review text.</p>
+            </div>
+          </div>
+          <div id="paper-detail" class="review-list empty">No paper selected.</div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-header">
+            <div>
+              <h2>Review Quality Inspector</h2>
+              <p>Filter for concise or potentially low-content reviews.</p>
+            </div>
+          </div>
+
+          <div class="filter-grid">
+            <label>
+              Min words
+              <input type="number" id="filter-min-words" min="0" value="0" />
+            </label>
+            <label>
+              Max words
+              <input type="number" id="filter-max-words" min="0" value="9999" />
+            </label>
+            <label>
+              Min confidence
+              <input type="number" id="filter-min-confidence" min="1" max="5" step="1" value="1" />
+            </label>
+            <label>
+              Max confidence
+              <input type="number" id="filter-max-confidence" min="1" max="5" step="1" value="5" />
+            </label>
+            <label class="checkbox-row">
+              <input type="checkbox" id="filter-short-flag" />
+              Only likely low-content (<120 words)
+            </label>
+          </div>
+
+          <div class="table-wrap slim">
+            <table id="review-table">
+              <thead>
+                <tr>
+                  <th>Paper</th>
+                  <th>Score</th>
+                  <th>Conf.</th>
+                  <th>Words</th>
+                  <th>Sent.</th>
+                  <th>Unique Ratio</th>
+                  <th>Flag</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <script src="/app.js" defer></script>
+  </body>
+</html>
