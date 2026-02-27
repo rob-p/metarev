@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Review Triage Dashboard</title>
-    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <div class="background-glow"></div>
@@ -18,13 +18,15 @@
           </p>
         </div>
         <form id="load-form" class="load-form">
-          <label for="folder-path">Review folder</label>
+          <label for="review-files">Review folder or XML files</label>
           <div class="load-row">
             <input
-              id="folder-path"
-              name="folder-path"
-              type="text"
-              placeholder="/path/to/review/xml/folder"
+              id="review-files"
+              name="review-files"
+              type="file"
+              multiple
+              webkitdirectory
+              directory
             />
             <button type="submit">Load</button>
           </div>
@@ -42,7 +44,7 @@
           <p class="kpi-value" id="kpi-reviews">-</p>
         </article>
         <article class="kpi-card">
-          <p class="kpi-label">Mean Score</p>
+          <p class="kpi-label">Mean Paper Score</p>
           <p class="kpi-value" id="kpi-mean-score">-</p>
         </article>
         <article class="kpi-card">
@@ -179,6 +181,6 @@
       </section>
     </main>
 
-    <script src="/app.js" defer></script>
+    <script src="app.js" defer></script>
   </body>
 </html>

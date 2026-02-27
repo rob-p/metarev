@@ -232,8 +232,8 @@ tr:hover {
 .review-list {
   display: grid;
   gap: 0.7rem;
-  max-height: 520px;
-  overflow: auto;
+  min-height: 720px;
+  overflow: visible;
 }
 
 .review-list.empty {
@@ -350,6 +350,12 @@ tr:hover {
 
   .split {
     grid-template-columns: 1fr;
+  }
+
+  .review-list {
+    min-height: 420px;
+    max-height: 68vh;
+    overflow: auto;
   }
 
   .load-form {

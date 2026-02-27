@@ -1,9 +1,9 @@
 # Review Triage Dashboard
 
-A local web app for area-chair review analysis.
+A fully client-side web app for area-chair review analysis.
 
 ## What it does
-- Loads EasyChair-style review XML files from a folder.
+- Loads EasyChair-style review XML files from a selected folder/files.
 - Computes paper-level metrics:
   - average score
   - minimum score
@@ -22,27 +22,19 @@ A local web app for area-chair review analysis.
   - min/max confidence
   - likely low-content flag (`<120` words)
 
-## Run
-From `/Users/rob/software_src/metarev`:
+## Run (no Python required)
+Open the app directly:
+
+- `web/index.html`
+
+Then select a folder of XML reviews (or multiple XML files) using the file picker.
+
+## Optional local static server
+If you prefer serving over HTTP:
 
 ```bash
-python3 app.py
+cd web
+python3 -m http.server 8787
 ```
 
-Then open:
-
-- [http://127.0.0.1:8787](http://127.0.0.1:8787)
-
-No review folder is loaded by default.
-
-## Load a different folder
-Use the "Review folder" input in the top-right and click **Load**.
-
-You can provide either:
-- a relative path (relative to the project directory), or
-- an absolute path.
-
-## Optional flags
-```bash
-python3 app.py --host 127.0.0.1 --port 8787 --data-dir /path/to/reviews --static-dir web
-```
+Open [http://127.0.0.1:8787](http://127.0.0.1:8787).
